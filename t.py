@@ -15,14 +15,6 @@ from boto.dynamodb2.types import NUMBER
 
 NEXT_STATE = 0
 
-from Queue import Queue, Empty
-
-def signal_safe_sleep(delay):
-    q = Queue()
-    try: q.get(True, delay)
-    except Empty:
-        pass
-
 def tempData():
     tempSensor = mraa.Aio(1)
     a = tempSensor.read()
@@ -48,22 +40,25 @@ def upload_kinesis():
 
 
 def check_status():
-    global NEXT_STATE
-    while True:
-        if NEXT_STATE == 0:
-            if switch.read():
-                NEXT_STATE = 1
-                #task_list.insert(0, 1) #test ues, ignore
-                time.sleep(0.5) # 0.5 sec to to allow main thread update the NEXT_STATE para
-            else:
-                NEXT_STATE = 0
-        elif NEXT_STATE == 1:
-            if switch.read():
-                NEXT_STATE = 0
-                #task_list.insert(0, 0)
-                time.sleep(0.5)
-            else:
-                NEXT_STATE = 1
+    global NEXT_STATE, flag
+    try:
+        while (flag):
+            if NEXT_STATE == 0:
+                if switch.read():
+                    NEXT_STATE = 1
+                    time.sleep(0.6) # 0.6 sec to to allow main thread update the NEXT_STATE para
+                else:
+                    NEXT_STATE = 0
+            elif NEXT_STATE == 1:
+                if switch.read():
+                    NEXT_STATE = 0
+                    time.sleep(0.6)
+                else:
+                    NEXT_STATE = 1
+
+        thread.exit()
+    except KeyboardInterrupt:
+        sys.exit()
 
 
 if __name__ == "__main__":
@@ -78,15 +73,15 @@ if __name__ == "__main__":
     statusKey = 0
     previous_status = 0
 
-    #task_list = [0]
     flag = True
+    flag2 = True
     check_thread= Thread(target = check_status)
     check_thread.setDaemon = True
     check_thread.start()
 
 
     try:
-        while (flag):
+        while (flag2):
             if NEXT_STATE == 0:
                 print "next state is ", NEXT_STATE
                 signal_safe_sleep(2)   #same as time.sleep()
