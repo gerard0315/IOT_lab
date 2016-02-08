@@ -17,24 +17,38 @@ def add_item(new_item, target_table):
         return
 
 def delete_tem(item_to_delete, target_table):
-    table = Table(target_table)
-    table.delete_item(item_to_delete)
-    return
+	try:
+        table = Table(target_table)
+        table.delete_item(item_to_delete)
+        #TODO!!!
+        time.sleep(0.5)
+        return
+    except IOError:
+    	print "Error deleting item"
+    	return
 
 
 def view_table(target_table):
-    table = Table(target_table)
-    result_set = table.scan()
-    for user in result_set:
+	try:
+		#CHANGE HERE!!!!
+        table = Table(target_table)
+        result_set = table.scan()
+        for user in result_set:
             print user['first_name']
-        #return
+    except IOError:
+    	print "Error viewing items"
+    	return
 
 
 def func_search(target_table, target_index):
-    table = Table(target_table)
-    _index = target_index
-    #TODO
-	print "result"
+	try:
+        table = Table(target_table)
+        _index = target_index
+        #TODO
+
+        print "result is: "
+    except IOError:
+    	print "Error searching item!"
 
 
 
