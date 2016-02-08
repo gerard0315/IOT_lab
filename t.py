@@ -106,9 +106,12 @@ if __name__ == "__main__":
         while (flag2):
             if NEXT_STATE == 0:
                 print "next state is ", NEXT_STATE
-                signal_safe_sleep(2)   #same as time.sleep()
+                myLcd.clear()
+                myLcd.write("DynamoDB")
+                time.sleep(2)   #same as time.sleep()
             elif NEXT_STATE == 1:
                 print "next state is ", NEXT_STATE
+                myLcd.clear()
                 myLcd.write("Kinesis")
 
 
@@ -116,9 +119,6 @@ if __name__ == "__main__":
                 flag2 = False
                 flag - False
                 print "exiting"
-                sys.exit()
-
-    sys.exit()
                 sys.exit()
 
     sys.exit()
