@@ -5,13 +5,16 @@ import sys
 import boto.dynamodb2
 import thread
 import threading
-import select
+import jason
+import base64
 import pyupm_i2clcd as lcd
 from boto import kinesis
 from  threading import Timer, Thread
+from amazon_kclpy import kcl
 from boto.dynamodb2.fields import HashKey, RangeKey, KeysOnlyIndex, GlobalAllIndex
 from boto.dynamodb2.table import Table
 from boto.dynamodb2.types import NUMBER
+
 
 NEXT_STATE = 0
 
@@ -35,8 +38,27 @@ def upload_db():
 
 
 def upload_kinesis():
-    print "K"
-    #TO DO!!!!
+    connection = kinesis.connect_to_region('us-east-1')
+    tries = 0
+    while tries < 10:
+        tries += 1
+        time.sleep(1)
+        try:
+            response = connection.describe_stream('Temperature')
+            if response['StreamDescription']['StreamStatus'] == 'ACTIVE':
+                break
+        except:
+            logger.error('error while trying to describe kinesis stream : %s')
+    else:
+        raise TimeoutError('Stream is still not active, aborting...')
+
+    data = tempData()
+    print(data)
+    try:
+        connection.put_record("Temperature", json.dumps(data), "partitionkey")
+    except IOError:
+        print ErrorString
+
 
 
 def check_status():
@@ -87,10 +109,16 @@ if __name__ == "__main__":
                 signal_safe_sleep(2)   #same as time.sleep()
             elif NEXT_STATE == 1:
                 print "next state is ", NEXT_STATE
-                signal_safe_sleep(2) 
+                myLcd.write("Kinesis")
+
 
     except KeyboardInterrupt:
+                flag2 = False
+                flag - False
                 print "exiting"
+                sys.exit()
+
+    sys.exit()
                 sys.exit()
 
     sys.exit()
