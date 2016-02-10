@@ -16,11 +16,10 @@ def add_item(new_item, target_table):
         print "Error adding item"
         return
 
-def delete_tem(target_table, feature0, feature1, feature2, feature3):
+def delete_item(target_table, feature1):
 	try:
         table = Table(target_table)
-        table.delete_item(Sex = feature0, CUID = feature1, First_Name = feature2, Last_Name = feature3)
-        #TODO!!!
+        table.delete_item(CUID = feature1)
         time.sleep(0.5)
         return
     except IOError:
@@ -30,11 +29,10 @@ def delete_tem(target_table, feature0, feature1, feature2, feature3):
 
 def view_table(target_table):
 	try:
-		#CHANGE HERE!!!!
         table = Table(target_table)
         result_set = table.scan()
         for user in result_set:
-            print user['first_name']
+            print user['Sex'], ":", user
     except IOError:
     	print "Error viewing items"
     	return
@@ -54,7 +52,7 @@ def func_search(target_table, target_index):
 
 if __name__ == "__main__":
         flag = True
-        print "please enter commands 'add<>to<>' or 'delete<>from<>' or 'view<>' or 'search<>by<>'"
+        print "please enter commands 'add<>to<>' or 'delete<>from<>' or 'view<>' or 'search<>by<>' or exit"
         while (flag):
                 print "Commands:"
                 raw = raw_input('>>')
@@ -76,17 +74,8 @@ if __name__ == "__main__":
                         elif command[0] == "delete" and len(command) == 4: 
                                 item_to_delete = command[1]
                                 target_table = command[3]
-                                print "please now input item details. "
-                                print "Sex:"
-                                input_0 = raw_input('>>')
-                                print "CUID":
-                                input_1 = raw_input('>>')
-                                print "First_Name:"
-                                input_2 = raw_input('>>')
-                                print "Last_Name:"
-                                input_3 = raw_input('>>')
                                 print "run deleting function"
-                                delete_item(target_table, input_0, input_1, input_2, input_3)
+                                delete_item(target_table, item_to_delete)
                         elif command[0] == "view" and len(command) == 2:
                                 target_table = command[1]
                                 view_table(target_table)
