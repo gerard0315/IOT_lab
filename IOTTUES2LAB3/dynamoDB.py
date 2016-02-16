@@ -23,9 +23,9 @@ from boto.dynamodb2.types import NUMBER
 from boto.dynamodb2.items import Item
 
 def connection():
-    ACCOUNT_ID = '850507712104'
-    IDENTITY_POOL_ID = 'us-east-1:28a6696a-2293-4769-9e42-5accb12c2999'
-    ROLE_ARN = 'arn:aws:iam::850507712104:role/Cognito_edisonDemoKinesisUnauth_Role'
+    ACCOUNT_ID = 
+    IDENTITY_POOL_ID = 
+    ROLE_ARN = 
 
     # Use cognito to get an identity.
     cognito = boto.connect_cognito_identity()
@@ -158,7 +158,7 @@ def data_clean(mtaData):
 
 
 if __name__ == "__main__":
-    apikey = '78b884010b517f078fdaeb9345beac62'
+    apikey = 
     mtaUpdateData = mtaUpdates.mtaUpdates(apikey)
     mtaData = connection()
     print mtaData, "here"
