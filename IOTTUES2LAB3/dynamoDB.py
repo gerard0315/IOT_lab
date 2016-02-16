@@ -23,9 +23,9 @@ from boto.dynamodb2.types import NUMBER
 from boto.dynamodb2.items import Item
 
 def connection():
-    ACCOUNT_ID = 
-    IDENTITY_POOL_ID = 
-    ROLE_ARN = 
+    ACCOUNT_ID =
+    IDENTITY_POOL_ID =
+    ROLE_ARN =
 
     # Use cognito to get an identity.
     cognito = boto.connect_cognito_identity()
@@ -124,9 +124,9 @@ def data_add(mtaData, mtaUpdateData):
                     if hasattr(update.vehicleData,'timestamp'):
                         _vehicle_time = update.vehicleData.timestamp
                 else:
-                    _current_stop_id = _current_stop_id
-                    _current_stop_status = _current_stop_status
-                    _vehicle_time = _vehicle_time
+                    _current_stop_id = None
+                    _current_stop_status = None
+                    _vehicle_time = None
 
             _trip_id = update.tripId
             _route_id = update.routeId
@@ -158,7 +158,7 @@ def data_clean(mtaData):
 
 
 if __name__ == "__main__":
-    apikey = 
+    apikey =
     mtaUpdateData = mtaUpdates.mtaUpdates(apikey)
     mtaData = connection()
     print mtaData, "here"
