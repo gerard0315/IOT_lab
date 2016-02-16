@@ -5,9 +5,9 @@ from boto.dynamodb2.table import Table
 from boto.dynamodb2.types import NUMBER
 #users = Table.create('users', schema=[HashKey('username')]);
 
-ACCOUNT_ID = '850507712104'
-IDENTITY_POOL_ID = 'us-east-1:28a6696a-2293-4769-9e42-5accb12c2999'
-ROLE_ARN = 'arn:aws:iam::850507712104:role/Cognito_edisonDemoKinesisUnauth_Role'
+ACCOUNT_ID = 
+IDENTITY_POOL_ID = 
+ROLE_ARN = 
 DYNAMODB_TABLE_NAME = 'edisonDemoDynamo'
 
 # Use cognito to get an identity.
